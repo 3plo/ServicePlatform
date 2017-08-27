@@ -1,0 +1,1 @@
+RewriteRule ^(images|img|css|js|flash|flv|xml)/(.*) static/$1/$2 [L]
