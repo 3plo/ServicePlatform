@@ -7,5 +7,13 @@
  */
 
 require_once __DIR__ . '/../application/Autoloader.php';
-$application = new \application\Application(new \configs\DBConfig());
-$application->run($_REQUEST, $_SESSION);
+//die(var_dump($_SERVER));
+$application = new \application\Application(
+    new \application\strategies\application_strategies\DefaultApplicationInitStrategy(),
+    new \controllers\Router(new \controllers\strategies\HTTPPathScannerStrategey())
+);
+$application->run(
+    $_SERVER['REQUEST_URI'], 
+    isset($_REQUEST) ? $_REQUEST : array(), 
+    isset($_SESSION) ? $_SESSION : array()
+);

@@ -28,7 +28,12 @@ class SQLQueryBuilder implements QueryBuilderInterafce
      * @throws IncorrectQueryDataException
      * @throws IncorrectQueryTypeException
      */
-    public function createQuery(QueryTypeEnum $queryType, string $table, array $where, array $params, integer $limit)
+    public function createQuery(
+        QueryTypeEnum $queryType,
+        string $table,
+        array $where,
+        array $params,
+        integer $limit) : string
     {
         $result = '';
         if (empty($table)){

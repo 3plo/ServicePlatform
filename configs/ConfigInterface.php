@@ -16,5 +16,5 @@ interface ConfigInterface
     /**
      * @return array
      */
-    public function getConfig();
+    public function getConfig() : array;
 }

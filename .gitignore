@@ -1,3 +1,4 @@
 /.idea
 /www/dynamic
-/www/vendor
+/composer.lock
+/vendor/

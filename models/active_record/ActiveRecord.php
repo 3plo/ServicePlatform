@@ -43,7 +43,7 @@ abstract class ActiveRecord
      * @param int $limit
      * @return array
      */
-    final protected static function find(string $tableName, array $params, array $where, integer $limit)
+    final protected static function find(string $tableName, array $params, array $where, integer $limit) : array
     {
         /** @noinspection PhpParamsInspection */
         $query = self::$queryBuilder->createQuery(
@@ -67,7 +67,7 @@ abstract class ActiveRecord
      * @param array $where
      * @return array
      */
-    final protected static function findOne(string $tableName, array $params, array $where)
+    final protected static function findOne(string $tableName, array $params, array $where) : array
     {
         return self::find($tableName, $params, $where, 1);
     }
@@ -78,7 +78,7 @@ abstract class ActiveRecord
      * @param array $where
      * @return array
      */
-    final protected static function findAll(string $tableName, array $params, array $where)
+    final protected static function findAll(string $tableName, array $params, array $where) : array
     {
         return self::find($tableName, $params, $where, 0);
     }
@@ -88,7 +88,7 @@ abstract class ActiveRecord
      * @return ActiveRecord
      * @throws MoreThenOneObjectWithCurrentParamsException
      */
-    final public static function init(integer $id)
+    final public static function init(integer $id) : ActiveRecord
     {
         $storageData = self::findAll(self::$storagePart, [], ['id' => $id]);
         if (!empty($storageData)) {

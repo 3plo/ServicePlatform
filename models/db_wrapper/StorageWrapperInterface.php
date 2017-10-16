@@ -21,11 +21,16 @@ use models\models_exceptions\db_exceptions\IncorrectQueryDataException;
 interface StorageWrapperInterface
 {
     /**
-     * @param ConfigInterface|null $config
-     * @return StorageWrapper
+     * @return StorageWrapperInterface
      * @throws DBConnectException
      */
-    public function getInstance(ConfigInterface $config = null);
+    public static function getInstance();
+
+    /**
+     * @param ConfigInterface $config
+     * @throws DBConnectException
+     */
+    public static function init(ConfigInterface $config);
 
     /**
      * @param string $query

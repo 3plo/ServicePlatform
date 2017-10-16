@@ -27,5 +27,5 @@ interface QueryBuilderInterafce
      * @throws IncorrectQueryDataException
      * @throws IncorrectQueryTypeException
      */
-    public function createQuery(QueryTypeEnum $queryType, string $table, array $params, array $where, integer $limit);
+    public function createQuery(QueryTypeEnum $queryType, string $table, array $params, array $where, integer $limit) : string;
 }

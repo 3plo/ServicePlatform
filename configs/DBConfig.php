@@ -24,7 +24,7 @@ class DBConfig implements ConfigInterface
     /**
      * @return array
      */
-    final public function getConfig()
+    final public function getConfig() : array
     {
         return array(
             'driver' => DBConfig::DRIVER,

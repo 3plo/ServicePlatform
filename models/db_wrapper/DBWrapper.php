@@ -9,6 +9,7 @@
 namespace models\db_wrapper;
 
 
+use application\registers\DBConfigRegister;
 use configs\ConfigInterface;
 use configs\DBConfig;
 use models\active_record\query_builder\QueryTypeEnum;
@@ -25,10 +26,10 @@ use models\models_exceptions\db_exceptions\IncorrectQueryDataException;
  * Class DBWrapper
  * @package models\db_wrapper
  */
-class StorageWrapper implements StorageWrapperInterface
+class DBWrapper implements StorageWrapperInterface
 {
     /**
-     * @var StorageWrapper
+     * @var StorageWrapperInterface
      */
     private static $instance;
 
@@ -57,17 +58,27 @@ class StorageWrapper implements StorageWrapperInterface
     }
 
     /**
-     * @param ConfigInterface|null $config
-     * @return StorageWrapper
+     * @param ConfigInterface $config
      * @throws DBConnectException
      */
-    public function getInstance(ConfigInterface $config = null)
+    public static function init(ConfigInterface $config)
     {
-        if (!isset($this::$instance)) {
-            $defaultConfig = new DBConfig();
-            $this::$instance = new StorageWrapper(isset($config)?$defaultConfig:$config);
+        if(!isset(DBWrapper::$instance)) {
+            DBWrapper::$instance = new DBWrapper($config);
         }
-        return $this::$instance;
+    }
+
+    /**
+     * @return StorageWrapperInterface
+     * @throws DBConnectException
+     */
+    public static function getInstance() : StorageWrapperInterface
+    {
+        if (!isset(DBWrapper::$instance)) {
+            $configRegister = DBConfigRegister::getInstance();
+            DBWrapper::init($configRegister->getConfig());
+        }
+        return self::$instance;
     }
 
     /**
@@ -77,9 +88,9 @@ class StorageWrapper implements StorageWrapperInterface
      * @throws ExecuteQueryException
      * @throws IncorrectQueryDataException
      */
-    public function execute(string $query)
+    public function execute(string $query) : array
     {
-        $escapeQuery = $this->pdoInstance->quote($query);
+        $escapeQuery = DBWrapper::$pdoInstance->quote($query);
         if ($escapeQuery === false) {
             throw new EscapeQueryException();
         }
@@ -113,7 +124,7 @@ class StorageWrapper implements StorageWrapperInterface
      * @return array
      * @throws IncorrectQueryDataException
      */
-    private function changeQueryExequte(string $query)
+    private function changeQueryExequte(string $query) : array
     {
         $count = $this->pdoInstance->exec($query);
         if ($count === false) {
@@ -128,7 +139,7 @@ class StorageWrapper implements StorageWrapperInterface
      * @return array
      * @throws ExecuteQueryException
      */
-    private function notChangeQueryExecute(string $query)
+    private function notChangeQueryExecute(string $query) : array
     {
         try {
             $pdoStatmentResult = $this->pdoInstance->query($query);

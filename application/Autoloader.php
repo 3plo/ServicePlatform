@@ -20,7 +20,7 @@ class Autoloader
         {
             if (file_exists($path))
             {
-                require($path);
+                require_once($path);
             }
         }
     }

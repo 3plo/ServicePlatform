@@ -9,7 +9,9 @@
 namespace application;
 
 
+use application\strategies\application_strategies\ApplicationInitStrategyInterface;
 use configs\ConfigInterface;
+use controllers\Router;
 
 /**
  * Class Application
@@ -18,26 +20,38 @@ use configs\ConfigInterface;
 class Application
 {
     /**
-     * @var ConfigInterface
+     * @var ApplicationInitStrategyInterface
      */
-    private $dbConfig;
+    private $applicationInitStrategy;
+
+    /**
+     * @var Router
+     */
+    private $router;
 
     /**
      * Application constructor.
-     * @param ConfigInterface $dbConfig
+     * @param ApplicationInitStrategyInterface $applicationInitStrategy
+     * @param Router $router
      */
-    public function __construct(ConfigInterface $dbConfig)
+    public function __construct(
+        ApplicationInitStrategyInterface $applicationInitStrategy,
+        Router $router
+    )
     {
-        $this->dbConfig = $dbConfig;
+        $this->applicationInitStrategy = $applicationInitStrategy;
+        $this->router = $router;
     }
 
     /**
+     * @param string $path
      * @param array $request
      * @param array $session
      */
-    public function run(array $request, array $session)
+    public function run(string $path, array $request, array $session)
     {
-
+        $this->applicationInitStrategy->applicationInit();
+        $this->router->routRequest($path, $request, $session);
     }
 
 
