@@ -46,7 +46,6 @@ class TwigViewRender implements Render
     {
         if (!isset(TwigViewRender::$instance)) {
             require_once $config->getConfig()['autoloader_path'];
-            #require_once __DIR__ . '/../../vendor/autoload.php';
             $loader = new \Twig_Loader_Filesystem($config->getConfig()['template_dir']);
             $twig = new \Twig_Environment($loader, array(
                 'cache' => !empty($config->getConfig()['cache_dir']) ?

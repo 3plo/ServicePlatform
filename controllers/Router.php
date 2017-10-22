@@ -9,6 +9,7 @@
 namespace controllers;
 
 
+use controllers\error_controllers\GeneralErrorController;
 use controllers\strategies\PathScannerStrategeyInterface;
 use views\renders\TwigViewRender;
 
@@ -24,6 +25,14 @@ class Router
      */
     private $pathScannerStrategy;
 
+    /**
+     * @param string $type
+     * @return GeneralErrorController
+     */
+    private function handleError(string $type) : GeneralErrorController
+    {
+
+    }
     /**
      * Router constructor.
      * @param PathScannerStrategeyInterface $pathScannerStrategy
@@ -44,8 +53,9 @@ class Router
         $classPath = Router::CONTROLLER_ROOT_DIR.
             $this->pathScannerStrategy->getControllerDirectory() .
             $this->pathScannerStrategy->getControllerName();
-        // TODO: handle error classNotExist/fileNotExist
+        // TODO: handle error_templates classNotExist/fileNotExist
         $controller = new $classPath(TwigViewRender::getInstance());
+        $controller = new GeneralErrorController(TwigViewRender::getInstance());
         $controller->handleAction(array(
             'request' => $request,
             'session' => $session
