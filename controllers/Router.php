@@ -45,7 +45,7 @@ class Router
             $this->pathScannerStrategy->getControllerDirectory() .
             $this->pathScannerStrategy->getControllerName();
         // TODO: handle error classNotExist/fileNotExist
-        $controller = new $classPath(new TwigViewRender());
+        $controller = new $classPath(TwigViewRender::getInstance());
         $controller->handleAction(array(
             'request' => $request,
             'session' => $session

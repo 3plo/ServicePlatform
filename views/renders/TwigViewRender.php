@@ -8,17 +8,35 @@
 
 namespace views\renders;
 
+use application\registers\RenderConfigRegister;
 use configs\ConfigInterface;
+use configs\RenderConfig;
 
 class TwigViewRender implements Render
 {
     /**
-     * @param array $data
-     * @return string
+     * @var Render
      */
-    public function rend(array $data)
+    private static $instance;
+
+    /**
+     * @var
+     */
+    private $twigInstance;
+
+    private function __construct(\Twig_Environment $twig)
     {
-        // TODO: Implement rend() method.
+        $this->twigInstance = $twig;
+    }
+
+    /**
+     * @param string $templateName
+     * @param array $data
+     */
+    public function rend(string $templateName, array $data)
+    {
+        $template = $this->twigInstance->load($templateName);
+        echo $template->render($data);
     }
 
     /**
@@ -26,6 +44,27 @@ class TwigViewRender implements Render
      */
     public static function init(ConfigInterface $config)
     {
-        // TODO: Implement init() method.
+        if (!isset(TwigViewRender::$instance)) {
+            require_once $config->getConfig()['autoloader_path'];
+            #require_once __DIR__ . '/../../vendor/autoload.php';
+            $loader = new \Twig_Loader_Filesystem($config->getConfig()['template_dir']);
+            $twig = new \Twig_Environment($loader, array(
+                'cache' => !empty($config->getConfig()['cache_dir']) ?
+                    $config->getConfig()['cache_dir'] :
+                    false
+            ));
+            TwigViewRender::$instance = new TwigViewRender($twig);
+        }
+    }
+
+    /**
+     * @return Render
+     */
+    public static function getInstance() : Render
+    {
+        if (!isset(TwigViewRender::$instance)) {
+            TwigViewRender::init(RenderConfigRegister::getInstance()->getConfig());
+        }
+        return TwigViewRender::$instance;
     }
 }
