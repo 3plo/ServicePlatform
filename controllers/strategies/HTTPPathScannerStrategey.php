@@ -47,6 +47,16 @@ class HTTPPathScannerStrategey implements PathScannerStrategeyInterface
     }
 
     /**
+     * @param $path
+     * @return string
+     */
+    private function removeGetParams($path) : string
+    {
+        $result = strstr($path, '?', true);
+        return $path = $result ? $result : $path;
+    }
+
+    /**
      * @param array $controllerName
      * @return string
      */
@@ -71,6 +81,7 @@ class HTTPPathScannerStrategey implements PathScannerStrategeyInterface
     public function parsePath(string $path)
     {
         $path = $this->escapePath($path);
+        $path = $this->removeGetParams($path);
         $controllerPathParts = $this->separatePath($path);
         $this->controllerDirectory = $this->parseConrollerDirectory($controllerPathParts);
         $this->controllerName = $this->parseControllerName($controllerPathParts);

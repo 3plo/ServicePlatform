@@ -24,6 +24,11 @@ abstract class MainController
     private $render;
 
     /**
+     * @var string
+     */
+    protected $templatePath = 'main_page.twig';
+
+    /**
      * MainController constructor.
      * @param Render $render
      */
@@ -40,6 +45,18 @@ abstract class MainController
         return $this->render;
     }
 
+    /**
+     * @param string $templatePath
+     */
+    final public function setTemplatePath(string $templatePath)
+    {
+        $this->templatePath = $templatePath;
+    }
+
+    final public function getTemplatePath()
+    {
+        return $this->templatePath;
+    }
     /**
      * @param array $params
      */

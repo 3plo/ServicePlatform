@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title>error</title>
+</head>
+<body>
+    <h1>error</h1>
+    {% if error_data_access %}
+        <p>Path : {{path}}</p>
+        <p>Params : </p>
+        {% for key, param in request %}
+            <p> <span> {{key}} : </span> <b>{{param}}</b> </p>
+        {% endfor %}
+        <p>Session : </p>
+        {% for key, param in session %}
+            <p> <span> {{key}} : </span> <b>{{param}}</b> </p>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
