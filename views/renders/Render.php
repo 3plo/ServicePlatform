@@ -14,13 +14,18 @@ use configs\ConfigInterface;
 interface Render
 {
     /**
+     * @param string $templateName
      * @param array $data
-     * @return string
      */
-    public function rend(array $data);
+    public function rend(string $templateName, array $data);
 
     /**
      * @param ConfigInterface $config
      */
     public static function init(ConfigInterface $config);
+
+    /**
+     * @return Render
+     */
+    public static function getInstance() : Render;
 }

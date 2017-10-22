@@ -1,32 +1,32 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: user
- * Date: 09.10.2017
- * Time: 21:52
+ * User: b.plotka
+ * Date: 22.10.2017
+ * Time: 19:17
  */
 
 namespace application\registers;
 
-
 use application\registers\register_enums\ConfigTypeEnum;
 use configs\ConfigInterface;
-use configs\DBConfig;
+use configs\RenderConfig;
 
-class DBConfigRegister implements ConfigRegisterInterface
+class RenderConfigRegister implements ConfigRegisterInterface
 {
+
     /**
-     * @var DBConfigRegister
+     * @var RenderConfigRegister
      */
     private static $instance;
 
     /**
-     * @var ConfigInterface
+     * @var ConfigRegisterInterface
      */
     private $config;
 
     /**
-     * DBConfigRegister constructor.
+     * RenderConfigRegister constructor.
      * @param ConfigInterface $config
      */
     private function __construct(ConfigInterface $config)
@@ -38,11 +38,11 @@ class DBConfigRegister implements ConfigRegisterInterface
      * @param string $type
      * @return ConfigInterface
      */
-    private static function getDBConfig(string $type) : ConfigInterface
+    private static function getRenderConfig(string $type) : ConfigInterface
     {
         switch ($type) {
             default :
-                $result = new DBConfig();
+                $result = new RenderConfig();
         }
         return $result;
     }
@@ -52,20 +52,18 @@ class DBConfigRegister implements ConfigRegisterInterface
      */
     public static function init(string $type = ConfigTypeEnum::DEFAULT)
     {
-        if (!isset(DBConfigRegister::$instance)) {
-            DBConfigRegister::$instance = new DBConfigRegister(DBConfigRegister::getDBConfig($type));
-        }
+        RenderConfigRegister::$instance = new RenderConfigRegister(RenderConfigRegister::getRenderConfig($type));
     }
 
     /**
      * @return ConfigRegisterInterface
      */
-    public static function getInstance() : ConfigRegisterInterface
+    public static function getInstance(): ConfigRegisterInterface
     {
-        if (!isset(DBConfigRegister::$instance)){
-            DBConfigRegister::init();
+        if (!isset(RenderConfigRegister::$instance)) {
+            RenderConfigRegister::init();
         }
-        return DBConfigRegister::$instance;
+        return RenderConfigRegister::$instance;
     }
 
     /**

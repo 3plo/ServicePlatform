@@ -17,6 +17,6 @@ class TestController extends MainController
      */
     public function handleAction(array $params)
     {
-        // TODO: Implement handleAction() method.
+        $this->getRender()->rend('test_template.twig', []);
     }
 }
