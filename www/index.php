@@ -10,7 +10,10 @@ require_once __DIR__ . '/../application/Autoloader.php';
 //die(var_dump($_SERVER));
 $application = new \application\Application(
     new \application\strategies\application_strategies\DefaultApplicationInitStrategy(),
-    new \controllers\Router(new \controllers\strategies\HTTPPathScannerStrategey())
+    new \controllers\Router(
+        new \controllers\strategies\HTTPPathScannerStrategey(),
+        new \controllers\comands\GeneralErrorHandleComand()
+    )
 );
 $application->run(
     $_SERVER['REQUEST_URI'], 

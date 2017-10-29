@@ -15,9 +15,19 @@ class GeneralErrorController extends MainController
 {
 
     /**
+     * @var \Exception
+     */
+    protected $exception;
+
+    /**
      * @var string
      */
     protected $templatePath = 'error_templates/base_error.twig';
+
+    /**
+     * @var string
+     */
+    protected $title = 'Error';
 
     /**
      * @param array|null $params
@@ -33,11 +43,30 @@ class GeneralErrorController extends MainController
      */
     public function handleAction(array $params)
     {
-        $this->getRender()->rend($this->getTemplatePath(),[
+        $this->setTemplateTitle();
+        $this->setParams([
             'path' => $_SERVER['REDIRECT_URL'],
             'error_data_access' => $this->hasDedugAccess($params['request']),
             'session' => $params['session'],
-            'request' => $params['request']
+            'request' => $params['request'],
+            'stackTrace' => $this->exception
         ]);
+        $this->getRender()->rend($this->getTemplatePath(), $this->renderData);
+    }
+
+    /**
+     * @param \Exception $exception
+     */
+    public function setError(\Exception $exception)
+    {
+        $this->exception = $exception;
+    }
+
+    /**
+     * @return \Exception
+     */
+    public function getError() : \Exception
+    {
+        return $this->exception;
     }
 }

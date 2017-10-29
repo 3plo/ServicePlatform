@@ -9,8 +9,13 @@
 namespace controllers;
 
 
+use controllers\comands\GeneralErrorHandleComand;
 use controllers\error_controllers\GeneralErrorController;
+use controllers\exceptions\ExceptionCodeEnum;
+use controllers\exceptions\routing_exceptions\IncorrectControllerPathException;
+use controllers\exceptions\routing_exceptions\RoutingException;
 use controllers\strategies\PathScannerStrategeyInterface;
+use views\renders\Render;
 use views\renders\TwigViewRender;
 
 /**
@@ -26,20 +31,65 @@ class Router
     private $pathScannerStrategy;
 
     /**
-     * @param string $type
+     * @var GeneralErrorHandleComand
+     */
+    private $errorHandlerComand;
+
+    /**
+     * @param RoutingException $exception
+     * @param Render $render
      * @return GeneralErrorController
      */
-    private function handleError(string $type) : GeneralErrorController
+    private function handleError(RoutingException $exception, Render $render) : GeneralErrorController
     {
-
+        $controller = $this->errorHandlerComand->getErrorHandlerController($exception, $render);
+        return $controller;
     }
+
+    /**
+     * @param string $controllerPath
+     * @param Render $render
+     * @return MainController
+     * @throws IncorrectControllerPathException
+     */
+    private function createControllerItemByPath(string $controllerPath, Render $render) : MainController
+    {
+        if (class_exists($controllerPath)) {
+            $controller = new $controllerPath($render);
+        } else {
+            throw new IncorrectControllerPathException(
+                'Не удается создать контроллер по заданому пути',
+                $code = ExceptionCodeEnum::INCORRECT_CONTROLLER_PATH
+            );
+        }
+        return $controller;
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    private function createControllerPath(string $path) : string
+    {
+        $this->pathScannerStrategy->parsePath($path);
+        $classPath = Router::CONTROLLER_ROOT_DIR.
+            $this->pathScannerStrategy->getControllerDirectory() .
+            $this->pathScannerStrategy->getControllerName();
+        return $classPath;
+    }
+
     /**
      * Router constructor.
      * @param PathScannerStrategeyInterface $pathScannerStrategy
+     * @param GeneralErrorHandleComand $errorHandleComand
      */
-    public function __construct(PathScannerStrategeyInterface $pathScannerStrategy)
+    public function __construct(
+        PathScannerStrategeyInterface $pathScannerStrategy,
+        GeneralErrorHandleComand $errorHandleComand
+    )
     {
         $this->pathScannerStrategy = $pathScannerStrategy;
+        $this->errorHandlerComand = $errorHandleComand;
     }
 
     /**
@@ -49,13 +99,13 @@ class Router
      */
     public function routRequest(string $path, array $request, array $session)
     {
-        $this->pathScannerStrategy->parsePath($path);
-        $classPath = Router::CONTROLLER_ROOT_DIR.
-            $this->pathScannerStrategy->getControllerDirectory() .
-            $this->pathScannerStrategy->getControllerName();
-        // TODO: handle error_templates classNotExist/fileNotExist
-        $controller = new $classPath(TwigViewRender::getInstance());
-        $controller = new GeneralErrorController(TwigViewRender::getInstance());
+        $classPath = $this->createControllerPath($path);
+        try {
+            $controller = $this->createControllerItemByPath($classPath, TwigViewRender::getInstance());
+        } catch (RoutingException $exception) {
+            $controller = $this->handleError($exception, TwigViewRender::getInstance());
+            $controller->setError($exception);
+        }
         $controller->handleAction(array(
             'request' => $request,
             'session' => $session

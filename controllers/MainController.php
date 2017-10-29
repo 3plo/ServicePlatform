@@ -26,7 +26,57 @@ abstract class MainController
     /**
      * @var string
      */
+    protected $title = '';
+
+    /**
+     * @var array
+     */
+    protected $renderData = [];
+
+    /**
+     * @var string
+     */
     protected $templatePath = 'main_page.twig';
+
+    /**
+     *
+     */
+    protected function setTemplateTitle()
+    {
+        $this->addToRenderParams('title', $this->title);
+    }
+
+
+    /**
+     * @param array $params
+     * @return bool
+     */
+    protected function setParams(array $params) : bool
+    {
+        $result = true;
+        foreach ($params as $title => $value){
+            if (!$this->addToRenderParams($title, $value)) {
+                $result = false;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param string $title
+     * @param $value
+     * @return bool
+     */
+    final protected function addToRenderParams(string $title, $value) : bool
+    {
+        $result = false;
+        if (!isset($this->renderData[$title])) {
+            // TODO check $value type (not Object) and throw Exception
+            $this->renderData[$title] = $value;
+            $result = true;
+        }
+        return $result;
+    }
 
     /**
      * MainController constructor.
