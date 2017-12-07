@@ -108,7 +108,8 @@ class Router
         }
         $controller->handleAction(array(
             'request' => $request,
-            'session' => $session
+            'session' => $session,
+            'path' => $path
         ));
     }
 }
