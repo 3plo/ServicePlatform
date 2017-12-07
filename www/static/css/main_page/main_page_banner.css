@@ -1,0 +1,5 @@
+.main-page-banner {
+    background: url(/dynamic/img/main_banner.jpg) no-repeat;
+    background-position: center top;
+    height: 600px;
+}

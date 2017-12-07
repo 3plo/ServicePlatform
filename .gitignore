@@ -2,3 +2,4 @@
 /www/dynamic
 /composer.lock
 /vendor/
+/www/cache/
