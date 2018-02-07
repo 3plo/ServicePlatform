@@ -14,6 +14,7 @@ $application = new \application\Application(
         new \controllers\comands\GeneralErrorHandleComand()
     )
 );
+$application->init();
 $application->run(
     $_SERVER['REQUEST_URI'],
     isset($_REQUEST) ? $_REQUEST : array(),

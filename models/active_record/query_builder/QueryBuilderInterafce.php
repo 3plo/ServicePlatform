@@ -18,7 +18,7 @@ use models\models_exceptions\db_exceptions\IncorrectQueryTypeException;
 interface QueryBuilderInterafce
 {
     /**
-     * @param QueryTypeEnum $queryType
+     * @param string $queryType
      * @param string $table
      * @param array $params
      * @param array $where
@@ -27,5 +27,5 @@ interface QueryBuilderInterafce
      * @throws IncorrectQueryDataException
      * @throws IncorrectQueryTypeException
      */
-    public function createQuery(QueryTypeEnum $queryType, string $table, array $params, array $where, integer $limit) : string;
+    public function createQuery(string $queryType, string $table, array $params, array $where, integer $limit) : string;
 }
