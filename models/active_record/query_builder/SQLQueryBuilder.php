@@ -19,24 +19,24 @@ use models\models_exceptions\db_exceptions\IncorrectQueryTypeException;
 class SQLQueryBuilder implements QueryBuilderInterafce
 {
     /**
-     * @param QueryTypeEnum $queryType
+     * @param string $queryType
      * @param string $table
-     * @param array $where
      * @param array $params
-     * @param integer $limit
+     * @param array $where
+     * @param int $limit
      * @return string
      * @throws IncorrectQueryDataException
      * @throws IncorrectQueryTypeException
      */
     public function createQuery(
-        QueryTypeEnum $queryType,
+        string $queryType,
         string $table,
-        array $where,
         array $params,
-        integer $limit) : string
+        array $where = [],
+        int $limit = 0) : string
     {
         $result = '';
-        if (empty($table)){
+        if (empty($table)) {
             throw new IncorrectQueryDataException();
         }
         switch ($queryType) {
@@ -55,7 +55,7 @@ class SQLQueryBuilder implements QueryBuilderInterafce
             default :
                 throw new IncorrectQueryTypeException();
         }
-        if(!$result){
+        if (!$result) {
             throw new IncorrectQueryDataException();
         }
         return $result;
@@ -71,18 +71,18 @@ class SQLQueryBuilder implements QueryBuilderInterafce
     private function makeSelectQuery(string $table, array $params, array $where, integer $limit)
     {
         $result = 'SELECT';
-        if (!empty($params)){
-            foreach ($params as $key){
+        if (!empty($params)) {
+            foreach ($params as $key) {
                 $result .= $key . ', ';
             }
             $result = substr($result, 0, -2);
-        } else{
+        } else {
             $result .= ' * ';
         }
         $result .= $table;
-        if (!empty($where)){
+        if (!empty($where)) {
             $result .= $this->makeWhereBlock($where);
-        } else{
+        } else {
             return false;
         }
         if ($limit > 0) {
@@ -101,17 +101,17 @@ class SQLQueryBuilder implements QueryBuilderInterafce
     private function makeUpdateQuery(string $table, array $params, array $where)
     {
         $result = 'UPDATE ' . $table . ' SET ';
-        if (!empty($params)){
-            foreach ($params as $key => $value){
+        if (!empty($params)) {
+            foreach ($params as $key => $value) {
                 $result .= $key . ' = ' . "'$value', ";
             }
             $result = substr($result, 0, -2);
-        } else{
+        } else {
             return false;
         }
-        if (!empty($where)){
+        if (!empty($where)) {
             $result .= $this->makeWhereBlock($where);
-        } else{
+        } else {
             return false;
         }
         $result .= ';';
@@ -126,9 +126,9 @@ class SQLQueryBuilder implements QueryBuilderInterafce
     private function makeDeleteQuery(string $table, array $where)
     {
         $result = 'DELETE FROM ' . $table;
-        if (!empty($where)){
+        if (!empty($where)) {
             $result .= $this->makeWhereBlock($where);
-        }else{
+        } else {
             return false;
         }
         $result .= ';';
@@ -143,17 +143,17 @@ class SQLQueryBuilder implements QueryBuilderInterafce
     private function makeInsertQuery(string $table, array $params)
     {
         $result = 'INSERT INTO ' . $table . 'VALUES(';
-        if (!empty($params)){
+        if (!empty($params)) {
             $valueTitles = '';
             $valueLists = '';
-            foreach ($params as $key => $value){
+            foreach ($params as $key => $value) {
                 $valueTitles = $key . ', ';
                 $valueLists = $value . ', ';
             }
             $valueTitles = substr($result, 0, -2) . ') ';
             $valueLists = substr($result, 0, -2);
             $result .= $valueTitles . $valueLists;
-        }else{
+        } else {
             return false;
         }
         $result .= ';';
@@ -164,9 +164,10 @@ class SQLQueryBuilder implements QueryBuilderInterafce
      * @param array $where
      * @return string
      */
-    private function makeWhereBlock(array $where){
+    private function makeWhereBlock(array $where)
+    {
         $result = ' WHERE ';
-        foreach ($where as $key => $value){
+        foreach ($where as $key => $value) {
             $result .= $key . ' = ' . "'$value' AND ";
         }
         $result = substr($result, 0, -5);

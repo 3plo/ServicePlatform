@@ -2,20 +2,15 @@
 /**
  * Created by PhpStorm.
  * User: user
- * Date: 25.08.2017
- * Time: 1:34
+ * Date: 05.02.2018
+ * Time: 1:02
  */
 
 namespace models\models_exceptions\active_record_exceptions;
 
-
 use models\models_exceptions\ExceptionCodeEnum;
 
-/**
- * Class MoreThenOneObjectWithCurrentParamsException
- * @package models\models_exceptions\active_record_exceptions
- */
-class MoreThenOneObjectWithCurrentParamsException extends ActiveRecordException
+class CallToUndefinedPropertyException extends ActiveRecordException
 {
     /**
      * DBConnectException constructor.
@@ -24,8 +19,8 @@ class MoreThenOneObjectWithCurrentParamsException extends ActiveRecordException
      * @param \Exception|null $previous
      */
     public function __construct(
-        $message = 'Не возможно определить единый элемент в хранилище при инициализации объекта',
-        $code = ExceptionCodeEnum::MORE_THEN_ONE_OBJECT_WITH_CURRENT_PARAMS_EXCEPTION,
+        $message = 'Обращение к несуществующему полю',
+        $code = ExceptionCodeEnum::CALL_TO_UNDEFINED_PROPERTY_EXCEPTION,
         \Exception $previous = null
     )
     {

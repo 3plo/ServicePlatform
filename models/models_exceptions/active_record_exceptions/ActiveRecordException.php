@@ -9,7 +9,7 @@
 namespace models\models_exceptions\active_record_exceptions;
 
 
-use models\models_exceptions\ExceprionCodeEnum;
+use models\models_exceptions\ExceptionCodeEnum;
 
 /**
  * Class ActiveRecordException
@@ -25,7 +25,7 @@ class ActiveRecordException extends \Exception
      */
     public function __construct(
         $message = 'Ошибка при работе с ActiveRecord',
-        $code = ExceprionCodeEnum::ACTIVE_RECORD_EXCEPTION,
+        $code = ExceptionCodeEnum::ACTIVE_RECORD_EXCEPTION,
         \Exception $previous = null
     )
     {

@@ -44,6 +44,17 @@ class Application
     }
 
     /**
+     * init global constants
+     */
+    public static function init()
+    {
+        define('DATETIME', date('Y-m-d H:i:s'));
+        define('DATE', date('Y-m-d'));
+        define('TIME', date('H:i:s'));
+        define('TIMESTAMP', time());
+    }
+
+    /**
      * @param string $path
      * @param array $request
      * @param array $session

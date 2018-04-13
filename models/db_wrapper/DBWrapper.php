@@ -52,7 +52,7 @@ class DBWrapper implements StorageWrapperInterface
                 ';host=' . $config['host'] .
                 ';port=' . $config['port'];
             $this->pdoInstance = new \PDO($dbh, $config['user'], $config['password']);
-        } catch(\PDOException $pdoException) {
+        } catch (\PDOException $pdoException) {
             throw new DBConnectException();
         }
     }
@@ -63,7 +63,7 @@ class DBWrapper implements StorageWrapperInterface
      */
     public static function init(ConfigInterface $config)
     {
-        if(!isset(DBWrapper::$instance)) {
+        if (!isset(DBWrapper::$instance)) {
             DBWrapper::$instance = new DBWrapper($config);
         }
     }
@@ -100,13 +100,13 @@ class DBWrapper implements StorageWrapperInterface
             } catch (ExecuteQueryException $exception) {
                 throw $exception;
             }
-        } elseif(
-            in_array(
-                strstr($escapeQuery, 0, 5),
-                [QueryTypeEnum::SQL_DELETE_QUERY,
+        } elseif (
+        in_array(
+            strstr($escapeQuery, 0, 5),
+            [QueryTypeEnum::SQL_DELETE_QUERY,
                 QueryTypeEnum::SQL_INSERT_QUERY,
                 QueryTypeEnum::SQL_UPDATE_QUERY]
-            )
+        )
         ) {
             try {
                 $result = $this->changeQueryExequte($escapeQuery);
@@ -127,10 +127,14 @@ class DBWrapper implements StorageWrapperInterface
     private function changeQueryExequte(string $query) : array
     {
         $count = $this->pdoInstance->exec($query);
+        $lastInsertId = $this->pdo->lastInsertId();
         if ($count === false) {
             throw new IncorrectQueryDataException();
         }
-        $result = ['count_changes' => $count];
+        $result = [
+            'count_changes' => $count,
+            'id' => $lastInsertId
+        ];
         return $result;
     }
 

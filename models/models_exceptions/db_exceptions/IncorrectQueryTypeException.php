@@ -8,7 +8,7 @@
 
 namespace models\models_exceptions\db_exceptions;
 
-use models\models_exceptions\ExceprionCodeEnum;
+use models\models_exceptions\ExceptionCodeEnum;
 
 /**
  * Class IncorrectQueryTypeException
@@ -24,7 +24,7 @@ class IncorrectQueryTypeException extends DBException
      */
     public function __construct(
         $message = 'Не существующий тип запроса',
-        $code = ExceprionCodeEnum::INCORRECT_QUERY_TYPE,
+        $code = ExceptionCodeEnum::INCORRECT_QUERY_TYPE,
         \Exception $previous = null
     )
     {

@@ -2,19 +2,14 @@
 /**
  * Created by PhpStorm.
  * User: user
- * Date: 21.08.2017
- * Time: 0:32
+ * Date: 13.04.2018
+ * Time: 0:31
  */
 
-namespace models\models_exceptions\db_exceptions;
+namespace models\models_exceptions;
 
-use models\models_exceptions\ExceptionCodeEnum;
 
-/**
- * Class IncorrectQueryDataException
- * @package models\models_exceptions\db_exceptions
- */
-class IncorrectQueryDataException extends DBException
+class IncorrectModelNameException extends \Exception
 {
     /**
      * DBConnectException constructor.
@@ -23,8 +18,8 @@ class IncorrectQueryDataException extends DBException
      * @param \Exception|null $previous
      */
     public function __construct(
-        $message = 'Не верные данные для запроса',
-        $code = ExceptionCodeEnum::INCORRECT_QUERY_DATA,
+        $message = 'Не обнаружено такого имени модели',
+        $code = ExceptionCodeEnum::MODEL_NAME_HAS_NOT_EXIST,
         \Exception $previous = null
     )
     {
