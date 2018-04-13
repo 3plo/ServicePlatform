@@ -9,7 +9,7 @@
 namespace models\models_exceptions\db_exceptions;
 
 
-use models\models_exceptions\ExceprionCodeEnum;
+use models\models_exceptions\ExceptionCodeEnum;
 
 /**
  * Class EscapeQueryException
@@ -25,7 +25,7 @@ class EscapeQueryException extends DBException
      */
     public function __construct(
         $message = 'Не верные данные для запроса',
-        $code = ExceprionCodeEnum::ESCAPE_QUERY_EXCEPTION,
+        $code = ExceptionCodeEnum::ESCAPE_QUERY_EXCEPTION,
         \Exception $previous = null
     )
     {

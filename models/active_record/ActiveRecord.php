@@ -11,6 +11,7 @@ namespace models\active_record;
 
 use models\active_record\query_builder\QueryBuilderInterafce;
 use models\active_record\query_builder\QueryTypeEnum;
+use models\helper\validators\ActiveRecordValidator;
 use models\db_wrapper\StorageWrapperInterface;
 use models\models_exceptions\active_record_exceptions\ActiveRecordClassNotFoundExceprion;
 use models\models_exceptions\active_record_exceptions\ActiveRecordValidateException;
@@ -43,6 +44,11 @@ abstract class ActiveRecord
      * @var string
      */
     protected static $storagePart;
+
+    /**
+     * @var ActiveRecordValidator
+     */
+    protected $activeRecordValidator;
 
     /**
      * @param string $tableName
@@ -119,35 +125,13 @@ abstract class ActiveRecord
     }
 
     /**
-     * @param $value
      * @param string $title
+     * @param $value
      * @return bool
      */
-    final public function validate($value, string $title) : bool
+    final public function validate(string $title, $value) : bool
     {
-        //TODO create validator class
-        $result = false;
-        if ($value && $title) {
-            if ($value instanceof $title) {
-                if ($this->getRules()[$title]['length'] && strlen((string)$value) <= $this->getRules()[$title]['length']) {
-                    if ($this->getRules()[$title]['mutable']) {
-                        if ($this->getRules()[$title]['unsigned']) {
-                            if ((is_int($value) || is_float($value)) && $value >= 0) {
-                                $result = true;
-                            }
-                        } else {
-                            $result = true;
-                        }
-                    } else {
-                        $result = true;
-                    }
-                    $result = true;
-                }
-            } else {
-                $result = true;
-            }
-        }
-        return $result;
+        return $this->activeRecordValidator->validate($this->getRules(), $title, $value);
     }
 
     /**
@@ -159,7 +143,7 @@ abstract class ActiveRecord
      * @throws ActiveRecordValidateException
      * @throws CallToUndefinedPropertyException
      */
-    protected static function create(string $classPath, integer $id = 0, array $data = []) : ?ActiveRecord
+    protected static function create(string $classPath, int $id = 0, array $data = []) //: ?ActiveRecord
     {
         /**
          * @var ?ActiveRecord
@@ -188,7 +172,8 @@ abstract class ActiveRecord
      * @throws ActiveRecordValidateException
      * @throws CallToUndefinedPropertyException
      */
-    protected function __set($property, $value) {
+    public function __set($property, $value) // TODO mask public method
+    {
         if (!property_exists($this, $property)) {
             throw new CallToUndefinedPropertyException();
         }

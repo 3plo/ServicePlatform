@@ -9,10 +9,10 @@
 namespace models\models_exceptions;
 
 /**
- * Class ExceprionCodeEnum
+ * Class ExceptionCodeEnum
  * @package models\models_exceptions
  */
-class ExceprionCodeEnum extends \Exception
+class ExceptionCodeEnum extends \Exception
 {
     const DB_EXCEPTION = 100000;
     const PDO_CONNECTION_EXCEPTION = 100001;
@@ -26,4 +26,6 @@ class ExceprionCodeEnum extends \Exception
     const CALL_TO_UNDEFINED_PROPERTY_EXCEPTION = 101002;
     const ACTIVE_RECORD_VALIDATE_EXCEPTION = 101003;
     const ACTIVE_RECORD_CLASS_NOT_FOUND_EXCEPTION = 101004;
+
+    const MODEL_NAME_HAS_NOT_EXIST = 102001;
 }

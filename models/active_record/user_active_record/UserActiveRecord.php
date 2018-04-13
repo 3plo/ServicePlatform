@@ -6,7 +6,7 @@
  * Time: 23:04
  */
 
-namespace models\active_record\admin_active_record;
+namespace models\active_record\user_active_record;
 
 
 use application\Application;

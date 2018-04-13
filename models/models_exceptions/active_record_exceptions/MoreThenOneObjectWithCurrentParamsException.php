@@ -9,7 +9,7 @@
 namespace models\models_exceptions\active_record_exceptions;
 
 
-use models\models_exceptions\ExceprionCodeEnum;
+use models\models_exceptions\ExceptionCodeEnum;
 
 /**
  * Class MoreThenOneObjectWithCurrentParamsException
@@ -25,7 +25,7 @@ class MoreThenOneObjectWithCurrentParamsException extends ActiveRecordException
      */
     public function __construct(
         $message = 'Не возможно определить единый элемент в хранилище при инициализации объекта',
-        $code = ExceprionCodeEnum::MORE_THEN_ONE_OBJECT_WITH_CURRENT_PARAMS_EXCEPTION,
+        $code = ExceptionCodeEnum::MORE_THEN_ONE_OBJECT_WITH_CURRENT_PARAMS_EXCEPTION,
         \Exception $previous = null
     )
     {

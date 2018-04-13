@@ -8,7 +8,7 @@
 
 namespace models\models_exceptions\active_record_exceptions;
 
-use models\models_exceptions\ExceprionCodeEnum;
+use models\models_exceptions\ExceptionCodeEnum;
 
 class ActiveRecordValidateException extends ActiveRecordException
 {
@@ -20,7 +20,7 @@ class ActiveRecordValidateException extends ActiveRecordException
      */
     public function __construct(
         $message = 'Ошибка валидации ActiveRecord',
-        $code = ExceprionCodeEnum::ACTIVE_RECORD_VALIDATE_EXCEPTION,
+        $code = ExceptionCodeEnum::ACTIVE_RECORD_VALIDATE_EXCEPTION,
         \Exception $previous = null
     )
     {

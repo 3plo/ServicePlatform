@@ -9,7 +9,7 @@
 namespace models\models_exceptions\db_exceptions;
 
 
-use models\models_exceptions\ExceprionCodeEnum;
+use models\models_exceptions\ExceptionCodeEnum;
 
 /**
  * Class DBException
@@ -25,7 +25,7 @@ class DBException extends \Exception
      */
     public function __construct(
         $message = 'Ошибка при работе с базой данных',
-        $code = ExceprionCodeEnum::DB_EXCEPTION,
+        $code = ExceptionCodeEnum::DB_EXCEPTION,
         \Exception $previous = null
     )
     {

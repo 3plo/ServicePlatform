@@ -8,7 +8,7 @@
 
 namespace models\models_exceptions\active_record_exceptions;
 
-use models\models_exceptions\ExceprionCodeEnum;
+use models\models_exceptions\ExceptionCodeEnum;
 
 class CallToUndefinedPropertyException extends ActiveRecordException
 {
@@ -20,7 +20,7 @@ class CallToUndefinedPropertyException extends ActiveRecordException
      */
     public function __construct(
         $message = 'Обращение к несуществующему полю',
-        $code = ExceprionCodeEnum::CALL_TO_UNDEFINED_PROPERTY_EXCEPTION,
+        $code = ExceptionCodeEnum::CALL_TO_UNDEFINED_PROPERTY_EXCEPTION,
         \Exception $previous = null
     )
     {

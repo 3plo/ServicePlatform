@@ -9,7 +9,7 @@
 namespace models\models_exceptions\db_exceptions;
 
 
-use models\models_exceptions\ExceprionCodeEnum;
+use models\models_exceptions\ExceptionCodeEnum;
 
 /**
  * Class DBConnectException
@@ -25,7 +25,7 @@ class DBConnectException extends  DBException
      */
     public function __construct(
         $message = 'Не возможно выполнить подключение к базе данных',
-        $code = ExceprionCodeEnum::PDO_CONNECTION_EXCEPTION,
+        $code = ExceptionCodeEnum::PDO_CONNECTION_EXCEPTION,
         \Exception $previous = null
     )
     {

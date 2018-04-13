@@ -9,7 +9,7 @@
 namespace models\models_exceptions\db_exceptions;
 
 
-use models\models_exceptions\ExceprionCodeEnum;
+use models\models_exceptions\ExceptionCodeEnum;
 
 /**
  * Class ExecuteQueryException
@@ -25,7 +25,7 @@ class ExecuteQueryException extends DBException
      */
     public function __construct(
         $message = 'Не возможно выполнить запрос',
-        $code = ExceprionCodeEnum::EXECUTE_QUERY_PROBLEM,
+        $code = ExceptionCodeEnum::EXECUTE_QUERY_PROBLEM,
         \Exception $previous = null
     )
     {
